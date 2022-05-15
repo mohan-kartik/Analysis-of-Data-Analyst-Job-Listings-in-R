@@ -24,3 +24,7 @@ The dataset consists of more than 2k+ job listing for data analyst positions. It
 7. Average Salary vs Ownership
 
 All the visualizations can be see in this [Poster](https://github.com/mohan-kartik/Analysis-of-Data-Analyst-Job-Listings-in-R/blob/main/Miniposter.pdf).
+
+## Requirements: 
+**Language:** R  
+**Packages:** readr, tidyr, stringr, ggplot2 <br />
