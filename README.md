@@ -5,7 +5,8 @@ To identify the key employment trends in the analyst job sector and visualize us
 
 ## Dataset description:
 The dataset consists of more than 2k+ job listing for data analyst positions. It has been scrapped from Glassdoor and gives insights into the various job details like salary range, top companies, sectors, etc.
-Link: https://www.kaggle.com/datasets/andrewmvd/data-analyst-jobs
+
+[Link](https://www.kaggle.com/datasets/andrewmvd/data-analyst-jobs)
 
 ## Data Processing 
 1. Check missing value -  Represented by '-1' & 'Unknown'. <br>
@@ -22,4 +23,4 @@ Link: https://www.kaggle.com/datasets/andrewmvd/data-analyst-jobs
 6. Ratings vs Sectors
 7. Average Salary vs Ownership
 
-All the visualizations can be see in this [Poster]("https://github.com/mohan-kartik/Analysis-of-Data-Analyst-Job-Listings-in-R/blob/main/Miniposter.pdf").
+All the visualizations can be see in this [Poster](https://github.com/mohan-kartik/Analysis-of-Data-Analyst-Job-Listings-in-R/blob/main/Miniposter.pdf).
