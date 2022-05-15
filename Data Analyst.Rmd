@@ -1,0 +1,172 @@
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Part A
+### Problem 1
+
+The dataset consists of more than 2k+ job listing for data analyst`
+positions. It has been scrapped from Glassdoor and gives insights into
+the various job details like salary range, top companies, sectors, etc.
+
+```{r}
+library(readr)
+library(tidyr)
+```
+
+```{r}
+# importing data and replacing missing values with NA
+df <- read_csv('G:/NEU_DS/IDMP/HW/2/2a/DataAnalyst.csv')
+```
+
+**Observations :** Missing values are represented by '-1' & 'Unknown'.
+
+```{r}
+# replacing -1 & Unknown by null value
+df[df == "-1"] <- NA
+df[df == "Unknown"] <- NA
+```
+
+```{r}
+# checking dimension 
+dim(df)
+
+# checking total NA values in all columns
+colSums(is.na(df))
+```
+
+**Observations :**
+
+-   Column 1 has index no. and can be dropped.
+-   Easy apply and Competitors have many missing values and can be dropped.
+-   Job description, Headquarters, Founded can also be dropped as they
+    are not required for our analysis.
+
+```{r}
+# printing column names to be dropped
+col <- names(df[ ,c(1,4,8,10,15,16)])
+col
+```
+
+```{r}
+# dropping the above columns
+df[,c(col)] <- list(NULL)
+```
+
+**Cleaning :**
+
+-   Some job titles contain department name/ company name,etc. Most are
+    separated from the title by a comma(,).
+-   All company names have a integer value which need to be separated.
+-   Salary Estimate column can be transformed to separate Min Salary &
+    Max Salary columns and need to be converted to integer.
+
+```{r}
+library(stringr)
+# splitting strings in columns 
+df$`Job Title` <- str_split(df$`Job Title`, ",", simplify = TRUE)[,1]
+
+df$`Company Name` <- str_split(df$`Company Name`, "\n", simplify = TRUE)[,1]
+
+df$`Salary Estimate` <- str_split(df$`Salary Estimate`, " ", simplify = TRUE)[,1]
+```
+
+```{r}
+# splitting Salary Estimate and dropping it
+df$`Min Salary` <- str_split(df$`Salary Estimate`, "-", simplify = TRUE)[,1]
+df$`Min Salary` <- as.integer(str_extract(df$`Min Salary`, "[[:digit:]]+"))
+
+df$`Max Salary` <- str_split(df$`Salary Estimate`, "-", simplify = TRUE)[,2]
+df$`Max Salary` <- as.integer(str_extract(df$`Max Salary`, "[[:digit:]]+"))
+
+df$`Salary Estimate` <- NULL
+```
+
+All the data has been tidied and transformed.
+
+### Problem 2
+
+```{r}
+library(ggplot2)
+
+# Bar plot 
+# Job distribution Ownership-wise
+ggplot(df, aes(x=reorder(df$`Type of ownership`, df$`Type of ownership`, function(x)-length(x)))) +
+  geom_bar(fill='blue') +  scale_y_log10() +
+  labs(title="Job distribution Ownership-wise", x='Ownership Type') + coord_flip() +
+  theme_classic()
+
+# Job distribution Sector-wise
+ggplot(df, aes(x=reorder(df$Sector, df$Sector, function(x)-length(x)))) +
+  geom_bar(fill='green') + scale_y_log10() + 
+  labs(title="Job distribution Sector-wise", x='Sectors') + coord_flip() +
+  theme_classic()
+```
+
+**Observations :**
+
+1)  The first plot shows the relationship between of jobs listings and
+    the companies ownership type. 1k+ companies are privately backed
+    followed by public companies. Rest are less than 100 in count.
+2)  Jobs distribution according to different sectors are showcased
+    above. Mining & Tourism sector have negligible listings while the
+    healthcare, finance, business & IT sector have the majority
+    openings.
+
+```{r}
+# Pie Chart
+ggplot(data = df, aes(x = 1, fill=Size)) + 
+  geom_bar() +
+  coord_polar(theta="y") +
+  labs(title = "Distribution of Employees Size", x= "", y="") +
+  theme_classic()
+```
+
+**Observations :** The pie chart provides insights regarding the total number of employees
+at companies. Most seem to have 200 employees followed by more than 1k.
+
+```{r pressure}
+# Box & Whisker plot
+ggplot(df, aes(x=df$Sector, y=df$Rating)) + coord_flip() +
+  geom_boxplot(fill='yellow') +
+  labs(x='Sectors', y='Rating') +
+  theme_classic()
+
+ggplot(df, aes(x=((df$`Min Salary`+df$`Max Salary`)/2), y=df$`Type of ownership`)) +
+  geom_boxplot(fill='orange') +
+  labs(x='Average Salary', y='Ownership Type') +
+  theme_classic()
+```
+
+**Observations :**
+
+1)  The employee ratings w.r.t various sectors are plotted.
+    Construction, Maintenance & Repair have low ratings while others are
+    in the range 3-4.
+2)  Average salary w.r.t Ownership type is plotted. Healthcare owned
+    companies have the highest avg salary. The salary range is between
+    60k-90k salary.
+
+```{r}
+# Histogram
+ggplot(data=df, aes(x=df$`Min Salary`)) +
+  geom_histogram(binwidth = 5) +  
+  labs(title="Distribution of Minimum Salary", x="Minimum Salary (in 1000s)") +
+  theme_classic()
+
+ggplot(data=df, aes(x=df$`Max Salary`)) +
+  geom_histogram(binwidth = 5) +  
+  labs(title="Distribution of Maximum Salary", x="Maximum Salary (in 1000s)") +
+  theme_classic()
+```
+
+**Observations:**
+
+1)  The histogram shows the minimum/maximum salary for the Data Analyst
+    positions of various companies. Both the distributions are right
+    skewed.
+2)  Most people have a minimum salary around 50k+. There are some
+    outliers present where maximum salary is more than 150k+.
+
+------------------------------------------------------------------------
