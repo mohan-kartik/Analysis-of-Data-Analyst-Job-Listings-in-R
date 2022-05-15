@@ -6,7 +6,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Part A
 ### Problem 1
 
-The dataset consists of more than 2k+ job listing for data analyst`
+The dataset consists of more than 2k+ job listing for data analyst
 positions. It has been scrapped from Glassdoor and gives insights into
 the various job details like salary range, top companies, sectors, etc.
 
@@ -17,7 +17,7 @@ library(tidyr)
 
 ```{r}
 # importing data and replacing missing values with NA
-df <- read_csv('G:/NEU_DS/IDMP/HW/2/2a/DataAnalyst.csv')
+df <- read_csv('DataAnalyst.csv')
 ```
 
 **Observations :** Missing values are represented by '-1' & 'Unknown'.
