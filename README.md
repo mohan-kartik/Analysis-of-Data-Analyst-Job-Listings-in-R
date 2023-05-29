@@ -1,4 +1,5 @@
-<h1><p align = "center">Analysis-of-Data-Analyst-Job-Listings-in-R</p></h1>
+<p align = "center"><img src = https://github.com/mohan-kartik/Analysis-of-Data-Analyst-Job-Listings-in-R/assets/42971268/71ad20f4-b913-4b75-82b0-ca4db98614c6 height=300> 
+
 
 ## Project Objective:
 To identify the key employment trends in the analyst job sector and visualize using ggplot2 in R.
